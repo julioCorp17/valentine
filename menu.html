@@ -2,9 +2,14 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Menu de Saint-Valentin 💗</title>
+
   <style>
-    * { box-sizing: border-box; font-family: "Poppins", sans-serif; }
+    * {
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
 
     body {
       margin: 0;
@@ -17,6 +22,7 @@
       position: relative;
       color: white;
       animation: fadeInPage 1s ease-out;
+      padding: 10px;
     }
 
     @keyframes fadeInPage {
@@ -29,8 +35,9 @@
       position: absolute;
       bottom: -50px;
       color: rgba(255,255,255,0.7);
-      font-size: 20px;
+      font-size: 18px;
       animation: floatUp 6s linear infinite;
+      pointer-events: none;
     }
 
     @keyframes floatUp {
@@ -44,13 +51,14 @@
       100% { transform: translateY(110vh) rotate(360deg); }
     }
 
-    /* Carte + lumière */
+    /* Carte responsive */
     .menu {
       background: rgba(255, 255, 255, 0.15);
-      padding: 35px 45px;
+      padding: 25px 25px;
       border-radius: 20px;
       backdrop-filter: blur(10px);
-      width: 380px;
+      width: 100%;
+      max-width: 380px;
       text-align: center;
       position: relative;
       z-index: 10;
@@ -90,7 +98,7 @@
       -webkit-background-clip: text;
       color: transparent;
       animation: shine 3s linear infinite;
-      font-size: 1.8rem;
+      font-size: 1.6rem;
       display: inline-block;
     }
 
@@ -99,19 +107,22 @@
       100% { background-position: -200%; }
     }
 
-    .title-line { font-size: 1.8rem; margin-bottom: 30px; }
+    .title-line {
+      font-size: 1.6rem;
+      margin-bottom: 20px;
+    }
 
     /* Sections */
     .section {
       display: grid;
-      grid-template-columns: 1fr 3fr;
+      grid-template-columns: 0.7fr 3fr;
       align-items: center;
-      margin-bottom: 25px;
+      margin-bottom: 20px;
       text-align: left;
     }
 
     .emoji {
-      font-size: 1.6rem;
+      font-size: 1.5rem;
       text-align: center;
       animation: float 2.5s ease-in-out infinite;
     }
@@ -122,8 +133,16 @@
       100% { transform: translateY(0); }
     }
 
-    .title { font-size: 1.2rem; font-weight: 600; margin-bottom: 4px; }
-    .item { font-size: 1rem; opacity: 0.95; }
+    .title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 3px;
+    }
+
+    .item {
+      font-size: 0.95rem;
+      opacity: 0.95;
+    }
 
     /* Bouton retour */
     #retour {
@@ -131,10 +150,10 @@
       display: inline-block;
       background: white;
       color: #ff2e7a;
-      padding: 10px 20px;
+      padding: 12px 22px;
       border-radius: 999px;
       cursor: pointer;
-      font-size: 0.9rem;
+      font-size: 1rem;
       text-decoration: none;
       border: none;
       box-shadow: 0 0 10px rgba(255,255,255,0.6);
@@ -148,8 +167,8 @@
 
     /* Message final */
     #final {
-      margin-top: 25px;
-      font-size: 1.1rem;
+      margin-top: 20px;
+      font-size: 1rem;
       opacity: 0;
       animation: fadeInFinal 2s ease forwards;
       animation-delay: 1.5s;
@@ -158,6 +177,15 @@
     @keyframes fadeInFinal {
       from { opacity: 0; }
       to { opacity: 1; }
+    }
+
+    /* Mobile tweaks */
+    @media (max-width: 400px) {
+      .title-line { font-size: 1.4rem; }
+      .shiny { font-size: 1.4rem; }
+      .emoji { font-size: 1.3rem; }
+      .title { font-size: 1rem; }
+      .item { font-size: 0.9rem; }
     }
   </style>
 </head>
@@ -175,7 +203,7 @@
       heart.classList.add("heart");
       heart.textContent = "💗";
       heart.style.left = Math.random() * 100 + "vw";
-      heart.style.fontSize = (20 + Math.random() * 20) + "px";
+      heart.style.fontSize = (18 + Math.random() * 20) + "px";
       heart.style.animationDuration = (4 + Math.random() * 4) + "s";
       document.body.appendChild(heart);
       setTimeout(() => heart.remove(), 7000);
@@ -191,7 +219,7 @@
       petal.style.position = "absolute";
       petal.style.left = Math.random() * 100 + "vw";
       petal.style.top = "-40px";
-      petal.style.fontSize = (20 + Math.random() * 20) + "px";
+      petal.style.fontSize = (18 + Math.random() * 20) + "px";
       petal.style.opacity = "0.9";
       petal.style.animation = `petalFall ${5 + Math.random() * 5}s linear`;
       document.body.appendChild(petal);
