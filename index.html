@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Veux-tu être ma Valentine ? 💘</title>
+  <style>
+    * { box-sizing: border-box; font-family: "Poppins", sans-serif; }
+
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #ff8fb1;
+      overflow: hidden;
+      position: relative;
+      color: white;
+      animation: fadeInPage 1s ease-out;
+    }
+
+    @keyframes fadeInPage {
+      from { opacity: 0; transform: scale(0.97); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    /* Cœurs */
+    .heart {
+      position: absolute;
+      bottom: -50px;
+      color: rgba(255,255,255,0.7);
+      font-size: 20px;
+      animation: floatUp 6s linear infinite;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0) scale(1); opacity: 1; }
+      100% { transform: translateY(-120vh) scale(1.8); opacity: 0; }
+    }
+
+    /* Pétales */
+    @keyframes petalFall {
+      0% { transform: translateY(0) rotate(0deg); }
+      100% { transform: translateY(110vh) rotate(360deg); }
+    }
+
+    /* Carte + lumière */
+    .card {
+      position: relative;
+      z-index: 10;
+      width: 360px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 24px;
+      padding: 24px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 25px #ffb3d9, 0 0 45px #ff8fc7;
+      text-align: center;
+      animation: fadeIn 1.2s ease-out;
+      border: 3px solid transparent;
+      background-clip: padding-box;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: -3px;
+      border-radius: 24px;
+      padding: 3px;
+      background: linear-gradient(120deg, #fff, #ff2e7a, #fff);
+      background-size: 300% 300%;
+      animation: borderGlow 4s ease infinite;
+      z-index: -1;
+    }
+
+    @keyframes borderGlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Titre brillant */
+    .shiny {
+      background: linear-gradient(90deg, #fff, #ffe6f2, #fff);
+      background-size: 200%;
+      -webkit-background-clip: text;
+      color: transparent;
+      animation: shine 3s linear infinite;
+      font-size: 1.4rem;
+      display: inline-block;
+    }
+
+    @keyframes shine {
+      0% { background-position: 200%; }
+      100% { background-position: -200%; }
+    }
+
+    .title-line { font-size: 1.4rem; margin-bottom: 10px; }
+
+    /* Boutons */
+    button {
+      border: none;
+      padding: 10px 22px;
+      border-radius: 999px;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: 0.15s ease;
+    }
+
+    /* Bouton Oui (lumière mais pas de vibration) */
+    #btn-oui {
+      background: #ff2e7a;
+      color: white;
+      box-shadow: 0 0 15px #ff2e7a, 0 0 30px #ff5fa2;
+      animation: glow 2s ease-in-out infinite;
+    }
+
+    @keyframes glow {
+      0% { box-shadow: 0 0 10px #ff2e7a; }
+      50% { box-shadow: 0 0 25px #ff5fa2; }
+      100% { box-shadow: 0 0 10px #ff2e7a; }
+    }
+
+    /* Bouton Non secousse */
+    @keyframes shake {
+      0% { transform: translate(0,0); }
+      25% { transform: translate(-5px,0); }
+      50% { transform: translate(5px,0); }
+      75% { transform: translate(-5px,0); }
+      100% { transform: translate(0,0); }
+    }
+
+    #btn-non {
+      background: #ffffff;
+      color: #ff2e7a;
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+      position: fixed;
+      left: 50%;
+      top: 60%;
+      transform: translate(-50%, -50%);
+      z-index: 10;
+    }
+
+    /* Message secret pop */
+    @keyframes pop {
+      0% { transform: scale(0.5); opacity: 0; }
+      60% { transform: scale(1.2); opacity: 1; }
+      100% { transform: scale(1); }
+    }
+
+    #secret {
+      margin-top: 20px;
+      font-size: 1.1rem;
+      display: none;
+      text-shadow: 0 0 10px #ff7ab8, 0 0 20px #ff9acb;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Musique -->
+  <audio autoplay loop>
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_7f9b0c2f2a.mp3?filename=romantic-piano-112194.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Son mignon -->
+  <audio id="cuteSound">
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_3f1b0c2f2a.mp3?filename=pop-110271.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Cœurs -->
+  <script>
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.textContent = "💗";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.fontSize = (20 + Math.random() * 20) + "px";
+      heart.style.animationDuration = (4 + Math.random() * 4) + "s";
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 7000);
+    }
+    setInterval(createHeart, 400);
+  </script>
+
+  <!-- Pétales -->
+  <script>
+    function createPetal() {
+      const petal = document.createElement("div");
+      petal.textContent = "🌸";
+      petal.style.position = "absolute";
+      petal.style.left = Math.random() * 100 + "vw";
+      petal.style.top = "-40px";
+      petal.style.fontSize = (20 + Math.random() * 20) + "px";
+      petal.style.opacity = "0.9";
+      petal.style.animation = `petalFall ${5 + Math.random() * 5}s linear`;
+      document.body.appendChild(petal);
+      setTimeout(() => petal.remove(), 10000);
+    }
+    setInterval(createPetal, 600);
+  </script>
+
+  <div class="card">
+    <div class="title-line">
+      <span>💌</span> <span class="shiny">Mon cœur...</span>
+    </div>
+
+    <div style="color:#ff2e7a; margin-bottom: 16px;">J’ai une question super importante 🥺</div>
+    <div style="font-size: 1.1rem; margin-bottom: 24px;">Est-ce que tu veux être ma Valentine ? 💖</div>
+
+    <button id="btn-oui">Oui 💘</button>
+
+    <div id="secret">Je savais que tu dirais oui... ❤️</div>
+  </div>
+
+  <button id="btn-non">Non 😳</button>
+
+  <script>
+    const btnNon = document.getElementById("btn-non");
+    const btnOui = document.getElementById("btn-oui");
+    const secret = document.getElementById("secret");
+    const cuteSound = document.getElementById("cuteSound");
+
+    function moveNon() {
+      const maxX = window.innerWidth - btnNon.offsetWidth;
+      const maxY = window.innerHeight - btnNon.offsetHeight;
+      btnNon.style.left = Math.random() * maxX + "px";
+      btnNon.style.top = Math.random() * maxY + "px";
+
+      btnNon.style.animation = "shake 0.3s";
+      setTimeout(() => btnNon.style.animation = "", 300);
+    }
+
+    moveNon();
+    btnNon.addEventListener("mouseenter", moveNon);
+    btnNon.addEventListener("click", moveNon);
+
+    btnOui.addEventListener("click", () => {
+      cuteSound.play();
+      secret.style.display = "block";
+      secret.style.animation = "pop 0.4s ease-out";
+
+      setTimeout(() => {
+        document.body.style.transition = "opacity 0.8s ease, transform 0.8s ease";
+        document.body.style.opacity = "0";
+        document.body.style.transform = "scale(1.05)";
+        setTimeout(() => window.location.href = "menu.html", 800);
+      }, 1500);
+    });
+  </script>
+
+</body>
+</html>
