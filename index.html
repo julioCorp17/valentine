@@ -16,13 +16,7 @@
       overflow: hidden;
       position: relative;
       color: white;
-      animation: fadeInPage 1s ease-out;
       padding: 8px;
-    }
-
-    @keyframes fadeInPage {
-      from { opacity: 0; transform: scale(0.96); }
-      to { opacity: 1; transform: scale(1); }
     }
 
     .screen {
@@ -41,7 +35,6 @@
       transform: scale(1.05);
     }
 
-    /* --- Cœurs & fleurs (inchangé) --- */
     .heart {
       position: absolute;
       bottom: -50px;
@@ -61,8 +54,7 @@
       100% { transform: translateY(110vh) rotate(360deg); }
     }
 
-    /* --- Carte écran 1 (inchangé) --- */
-    .card {
+    .card, .menu {
       position: relative;
       z-index: 10;
       width: 100%;
@@ -73,12 +65,11 @@
       backdrop-filter: blur(10px);
       box-shadow: 0 0 20px #ffb3d9, 0 0 35px #ff8fc7;
       text-align: center;
-      animation: fadeIn 1.2s ease-out;
       border: 2px solid transparent;
       background-clip: padding-box;
     }
 
-    .card::before {
+    .card::before, .menu::before {
       content: "";
       position: absolute;
       inset: -2px;
@@ -96,11 +87,6 @@
       100% { background-position: 0% 50%; }
     }
 
-    @keyframes fadeIn {
-      0% { opacity: 0; transform: translateY(15px); }
-      100% { opacity: 1; transform: translateY(0); }
-    }
-
     .shiny {
       background: linear-gradient(90deg, #fff, #ffe6f2, #fff);
       background-size: 200%;
@@ -115,8 +101,6 @@
       0% { background-position: 200%; }
       100% { background-position: -200%; }
     }
-
-    .title-line { font-size: 1.3rem; margin-bottom: 12px; }
 
     button {
       border: none;
@@ -149,7 +133,7 @@
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
       position: fixed;
       left: 50%;
-      top: 75%;
+      top: 70%;
       transform: translate(-50%, -50%);
       z-index: 10;
       padding: 12px 20px;
@@ -171,38 +155,51 @@
       text-shadow: 0 0 10px #ff7ab8, 0 0 20px #ff9acb;
     }
 
-    /* --- TON MENU EXACT --- */
-    .menu {
-      background: rgba(255, 255, 255, 0.15);
-      padding: 30px 30px;
-      border-radius: 20px;
-      backdrop-filter: blur(10px);
-      width: 100%;
-      max-width: 380px;
-      text-align: center;
-      position: relative;
-      z-index: 10;
-      animation: fadeIn 1.2s ease-out;
-      border: 3px solid transparent;
-      background-clip: padding-box;
-      box-shadow: 0 0 25px #ffb3d9, 0 0 45px #ff8fc7;
-    }
-
-    .menu::before {
-      content: "";
-      position: absolute;
-      inset: -3px;
-      border-radius: 20px;
-      padding: 3px;
-      background: linear-gradient(120deg, #fff, #ff2e7a, #fff);
-      background-size: 300% 300%;
-      animation: borderGlow 4s ease infinite;
-      z-index: -1;
+    /* Battement de cœur ralenti */
+    @keyframes heartbeat {
+      0% { transform: scale(1); }
+      25% { transform: scale(1.12); }
+      40% { transform: scale(0.97); }
+      60% { transform: scale(1.08); }
+      100% { transform: scale(1); }
     }
 
     .title-line-menu {
       font-size: 1.6rem;
       margin-bottom: 25px;
+      animation: heartbeat 5.5s infinite ease-in-out;
+    }
+
+    /* Animation d’écriture */
+    @keyframes typewriter {
+      0% { width: 0; opacity: 1; }
+      100% { width: 100%; opacity: 1; }
+    }
+
+    .typewriter {
+      display: inline-block;
+      overflow: hidden;
+      white-space: nowrap;
+      border-right: 2px solid rgba(255,255,255,0.7);
+      animation: typewriter 2.5s steps(25) forwards, blink 0.8s step-end infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { border-color: transparent; }
+      50% { border-color: rgba(255,255,255,0.7); }
+    }
+
+    /* Explosion de pétales */
+    @keyframes burstPetals {
+      0% { transform: scale(0.3); opacity: 1; }
+      100% { transform: scale(1.8); opacity: 0; }
+    }
+
+    .burst {
+      position: absolute;
+      font-size: 24px;
+      pointer-events: none;
+      animation: burstPetals 1.2s ease-out forwards;
     }
 
     .section {
@@ -219,20 +216,21 @@
       animation: float 2.5s ease-in-out infinite;
     }
 
-    .title { font-size: 1.1rem; font-weight: 600; margin-bottom: 3px; }
-    .item { font-size: 0.95rem; opacity: 0.95; }
+    @keyframes float {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+      100% { transform: translateY(0); }
+    }
 
     #retour {
-      margin-top: 15px;
-      margin-bottom: 15px;
-      display: inline-block;
+      margin-top: 5px;
+      margin-bottom: 30px;
       background: white;
       color: #ff2e7a;
       padding: 12px 22px;
       border-radius: 999px;
       cursor: pointer;
       font-size: 1rem;
-      text-decoration: none;
       border: none;
       box-shadow: 0 0 10px rgba(255,255,255,0.6);
     }
@@ -289,6 +287,20 @@
 
     setInterval(createHeart, 350);
     setInterval(createFlower, 600);
+
+    function burstPetals() {
+      const petals = ["🌸","🌺","🌼","🌷","💮"];
+      for (let i = 0; i < 12; i++) {
+        const p = document.createElement("div");
+        p.classList.add("burst");
+        p.textContent = petals[Math.floor(Math.random() * petals.length)];
+        p.style.left = (window.innerWidth / 2 - 20) + "px";
+        p.style.top = (window.innerHeight / 2 - 20) + "px";
+        p.style.transform = `translate(${(Math.random()*200-100)}px, ${(Math.random()*200-100)}px)`;
+        document.body.appendChild(p);
+        setTimeout(() => p.remove(), 1200);
+      }
+    }
   </script>
 
   <!-- ÉCRAN 1 -->
@@ -308,7 +320,7 @@
     <button id="btn-non">Non 😳</button>
   </div>
 
-  <!-- ÉCRAN 2 (TON MENU EXACT) -->
+  <!-- ÉCRAN 2 -->
   <div id="screen2" class="screen hidden">
     <div class="menu">
       <div class="title-line-menu">
@@ -341,7 +353,8 @@
 
       <button id="retour">Retour à la question ❤️</button>
 
-      <div id="final">J’ai hâte de passer cette soirée avec toi 💕<br> Je t’aime 💘</div>
+      <div id="final"> J’ai hâte de passer cette soirée avec toi 💕<br> Je t’aime 💘</span>
+      </div>
     </div>
   </div>
 
@@ -371,6 +384,8 @@
     btnOui.addEventListener("click", () => {
       cuteSound.play().catch(() => {});
       bgMusic.play().catch(() => {});
+
+      burstPetals();
 
       secret.style.display = "block";
       secret.style.animation = "pop 0.4s ease-out";
