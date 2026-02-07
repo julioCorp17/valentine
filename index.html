@@ -2,10 +2,9 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <title>Veux-tu être ma Valentine ? 💘</title>
   <link rel="icon" type="image/png" href="logo.png">
-
 
   <style>
     * { box-sizing: border-box; font-family: "Poppins", sans-serif; }
@@ -13,66 +12,78 @@
     body {
       margin: 0;
       height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       background: #ff8fb1;
       overflow: hidden;
       position: relative;
       color: white;
       animation: fadeInPage 1s ease-out;
-      padding: 10px;
+      padding: 8px;
     }
 
     @keyframes fadeInPage {
-      from { opacity: 0; transform: scale(0.97); }
+      from { opacity: 0; transform: scale(0.96); }
       to { opacity: 1; transform: scale(1); }
     }
 
-    /* Cœurs */
+    .screen {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .hidden {
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(1.05);
+    }
+
+    /* --- Cœurs & fleurs (inchangé) --- */
     .heart {
       position: absolute;
       bottom: -50px;
       color: rgba(255,255,255,0.7);
-      font-size: 18px;
+      font-size: 16px;
       animation: floatUp 6s linear infinite;
       pointer-events: none;
     }
 
     @keyframes floatUp {
       0% { transform: translateY(0) scale(1); opacity: 1; }
-      100% { transform: translateY(-120vh) scale(1.8); opacity: 0; }
+      100% { transform: translateY(-120vh) scale(1.6); opacity: 0; }
     }
 
-    /* Pétales */
     @keyframes petalFall {
       0% { transform: translateY(0) rotate(0deg); }
       100% { transform: translateY(110vh) rotate(360deg); }
     }
 
-    /* Carte + lumière */
+    /* --- Carte écran 1 (inchangé) --- */
     .card {
       position: relative;
       z-index: 10;
       width: 100%;
-      max-width: 380px;
-      background: rgba(255, 255, 255, 0.15);
-      border-radius: 24px;
-      padding: 25px;
+      max-width: 340px;
+      background: rgba(255, 255, 255, 0.18);
+      border-radius: 20px;
+      padding: 20px;
       backdrop-filter: blur(10px);
-      box-shadow: 0 0 25px #ffb3d9, 0 0 45px #ff8fc7;
+      box-shadow: 0 0 20px #ffb3d9, 0 0 35px #ff8fc7;
       text-align: center;
       animation: fadeIn 1.2s ease-out;
-      border: 3px solid transparent;
+      border: 2px solid transparent;
       background-clip: padding-box;
     }
 
     .card::before {
       content: "";
       position: absolute;
-      inset: -3px;
-      border-radius: 24px;
-      padding: 3px;
+      inset: -2px;
+      border-radius: 20px;
+      padding: 2px;
       background: linear-gradient(120deg, #fff, #ff2e7a, #fff);
       background-size: 300% 300%;
       animation: borderGlow 4s ease infinite;
@@ -86,18 +97,17 @@
     }
 
     @keyframes fadeIn {
-      0% { opacity: 0; transform: translateY(20px); }
+      0% { opacity: 0; transform: translateY(15px); }
       100% { opacity: 1; transform: translateY(0); }
     }
 
-    /* Titre brillant */
     .shiny {
       background: linear-gradient(90deg, #fff, #ffe6f2, #fff);
       background-size: 200%;
       -webkit-background-clip: text;
       color: transparent;
       animation: shine 3s linear infinite;
-      font-size: 1.5rem;
+      font-size: 1.3rem;
       display: inline-block;
     }
 
@@ -106,136 +116,234 @@
       100% { background-position: -200%; }
     }
 
-    .title-line { font-size: 1.5rem; margin-bottom: 15px; }
+    .title-line { font-size: 1.3rem; margin-bottom: 12px; }
 
-    /* Boutons */
     button {
       border: none;
-      padding: 12px 24px;
+      padding: 12px 20px;
       border-radius: 999px;
       font-size: 1rem;
       cursor: pointer;
+      width: 100%;
+      max-width: 200px;
       transition: 0.15s ease;
     }
 
-    /* Bouton Oui (lumière) */
     #btn-oui {
       background: #ff2e7a;
       color: white;
-      width: 100%;
-      max-width: 200px;
-      box-shadow: 0 0 15px #ff2e7a, 0 0 30px #ff5fa2;
+      box-shadow: 0 0 12px #ff2e7a, 0 0 22px #ff5fa2;
       animation: glow 2s ease-in-out infinite;
+      margin: 0 auto;
     }
 
     @keyframes glow {
-      0% { box-shadow: 0 0 10px #ff2e7a; }
-      50% { box-shadow: 0 0 25px #ff5fa2; }
-      100% { box-shadow: 0 0 10px #ff2e7a; }
-    }
-
-    /* Bouton Non secousse */
-    @keyframes shake {
-      0% { transform: translate(0,0); }
-      25% { transform: translate(-5px,0); }
-      50% { transform: translate(5px,0); }
-      75% { transform: translate(-5px,0); }
-      100% { transform: translate(0,0); }
+      0% { box-shadow: 0 0 8px #ff2e7a; }
+      50% { box-shadow: 0 0 20px #ff5fa2; }
+      100% { box-shadow: 0 0 8px #ff2e7a; }
     }
 
     #btn-non {
       background: #ffffff;
       color: #ff2e7a;
-      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
       position: fixed;
       left: 50%;
-      top: 70%;
+      top: 75%;
       transform: translate(-50%, -50%);
       z-index: 10;
-      padding: 12px 24px;
+      padding: 12px 20px;
       font-size: 1rem;
     }
 
-    /* Message secret pop */
-    @keyframes pop {
-      0% { transform: scale(0.5); opacity: 0; }
-      60% { transform: scale(1.2); opacity: 1; }
-      100% { transform: scale(1); }
+    @keyframes shake {
+      0% { transform: translate(0,0); }
+      25% { transform: translate(-4px,0); }
+      50% { transform: translate(4px,0); }
+      75% { transform: translate(-4px,0); }
+      100% { transform: translate(0,0); }
     }
 
     #secret {
-      margin-top: 20px;
-      font-size: 1.1rem;
+      margin-top: 18px;
+      font-size: 1rem;
       display: none;
       text-shadow: 0 0 10px #ff7ab8, 0 0 20px #ff9acb;
     }
 
-    /* Mobile tweaks */
-    @media (max-width: 400px) {
-      .title-line { font-size: 1.3rem; }
-      .shiny { font-size: 1.3rem; }
-      #btn-non { top: 75%; }
+    /* --- TON MENU EXACT --- */
+    .menu {
+      background: rgba(255, 255, 255, 0.15);
+      padding: 30px 30px;
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      width: 100%;
+      max-width: 380px;
+      text-align: center;
+      position: relative;
+      z-index: 10;
+      animation: fadeIn 1.2s ease-out;
+      border: 3px solid transparent;
+      background-clip: padding-box;
+      box-shadow: 0 0 25px #ffb3d9, 0 0 45px #ff8fc7;
+    }
+
+    .menu::before {
+      content: "";
+      position: absolute;
+      inset: -3px;
+      border-radius: 20px;
+      padding: 3px;
+      background: linear-gradient(120deg, #fff, #ff2e7a, #fff);
+      background-size: 300% 300%;
+      animation: borderGlow 4s ease infinite;
+      z-index: -1;
+    }
+
+    .title-line-menu {
+      font-size: 1.6rem;
+      margin-bottom: 25px;
+    }
+
+    .section {
+      display: grid;
+      grid-template-columns: 0.7fr 3fr;
+      align-items: center;
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .emoji {
+      font-size: 1.5rem;
+      text-align: center;
+      animation: float 2.5s ease-in-out infinite;
+    }
+
+    .title { font-size: 1.1rem; font-weight: 600; margin-bottom: 3px; }
+    .item { font-size: 0.95rem; opacity: 0.95; }
+
+    #retour {
+      margin-top: 15px;
+      margin-bottom: 15px;
+      display: inline-block;
+      background: white;
+      color: #ff2e7a;
+      padding: 12px 22px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 1rem;
+      text-decoration: none;
+      border: none;
+      box-shadow: 0 0 10px rgba(255,255,255,0.6);
     }
   </style>
 </head>
 <body>
 
-  <!-- Musique -->
-  <audio autoplay loop>
-    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_7f9b0c2f2a.mp3?filename=romantic-piano-112194.mp3" type="audio/mpeg">
+  <button id="unlockAudio" style="position:absolute;opacity:0;pointer-events:auto;">unlock</button>
+
+  <audio id="bgMusic" loop>
+    <source src="musique.mp3" type="audio/mpeg">
   </audio>
 
-  <!-- Son mignon -->
   <audio id="cuteSound">
-    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_3f1b0c2f2a.mp3?filename=pop-110271.mp3" type="audio/mpeg">
+    <source src="pop.mp3" type="audio/mpeg">
   </audio>
 
-  <!-- Cœurs -->
   <script>
+    const unlockBtn = document.getElementById("unlockAudio");
+    const bgMusic = document.getElementById("bgMusic");
+    unlockBtn.addEventListener("click", () => {
+      bgMusic.play().catch(() => {});
+      unlockBtn.style.display = "none";
+    });
+  </script>
+
+  <script>
+    const hearts = ["💗", "💖", "❤️", "💕", "💞", "💘"];
+    const flowers = ["🌸", "🌺", "🌼", "🌷", "💮"];
+
     function createHeart() {
-      const heart = document.createElement("div");
-      heart.classList.add("heart");
-      heart.textContent = "💗";
-      heart.style.left = Math.random() * 100 + "vw";
-      heart.style.fontSize = (18 + Math.random() * 20) + "px";
-      heart.style.animationDuration = (4 + Math.random() * 4) + "s";
-      document.body.appendChild(heart);
-      setTimeout(() => heart.remove(), 7000);
+      const h = document.createElement("div");
+      h.classList.add("heart");
+      h.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+      h.style.left = Math.random() * 100 + "vw";
+      h.style.fontSize = (16 + Math.random() * 18) + "px";
+      h.style.animationDuration = (4 + Math.random() * 4) + "s";
+      document.body.appendChild(h);
+      setTimeout(() => h.remove(), 7000);
     }
-    setInterval(createHeart, 400);
+
+    function createFlower() {
+      const f = document.createElement("div");
+      f.textContent = flowers[Math.floor(Math.random() * flowers.length)];
+      f.style.position = "absolute";
+      f.style.left = Math.random() * 100 + "vw";
+      f.style.top = "-40px";
+      f.style.fontSize = (16 + Math.random() * 18) + "px";
+      f.style.opacity = "0.9";
+      f.style.animation = `petalFall ${5 + Math.random() * 5}s linear`;
+      document.body.appendChild(f);
+      setTimeout(() => f.remove(), 10000);
+    }
+
+    setInterval(createHeart, 350);
+    setInterval(createFlower, 600);
   </script>
 
-  <!-- Pétales -->
-  <script>
-    function createPetal() {
-      const petal = document.createElement("div");
-      petal.textContent = "🌸";
-      petal.style.position = "absolute";
-      petal.style.left = Math.random() * 100 + "vw";
-      petal.style.top = "-40px";
-      petal.style.fontSize = (18 + Math.random() * 20) + "px";
-      petal.style.opacity = "0.9";
-      petal.style.animation = `petalFall ${5 + Math.random() * 5}s linear`;
-      document.body.appendChild(petal);
-      setTimeout(() => petal.remove(), 10000);
-    }
-    setInterval(createPetal, 600);
-  </script>
+  <!-- ÉCRAN 1 -->
+  <div id="screen1" class="screen">
+    <div class="card">
+      <div class="title-line">
+        <span>💌</span> <span class="shiny">Mon cœur...</span>
+      </div>
 
-  <div class="card">
-    <div class="title-line">
-      <span>💌</span> <span class="shiny">Mon cœur...</span>
+      <div style="color:#ff2e7a; margin-bottom: 12px;">J’ai une question super importante 🥺</div>
+      <div style="font-size: 1rem; margin-bottom: 20px;">Est-ce que tu veux être ma Valentine ? 💖</div>
+
+      <button id="btn-oui">Oui 💘</button>
+      <div id="secret">Je savais que tu dirais oui... ❤️</div>
     </div>
 
-    <div style="color:#ff2e7a; margin-bottom: 16px;">J’ai une question super importante 🥺</div>
-    <div style="font-size: 1.1rem; margin-bottom: 24px;">Est-ce que tu veux être ma Valentine ? 💖</div>
-
-    <button id="btn-oui">Oui 💘</button>
-
-    <div id="secret">Je savais que tu dirais oui... ❤️</div>
+    <button id="btn-non">Non 😳</button>
   </div>
 
-  <button id="btn-non">Non 😳</button>
+  <!-- ÉCRAN 2 (TON MENU EXACT) -->
+  <div id="screen2" class="screen hidden">
+    <div class="menu">
+      <div class="title-line-menu">
+        <span>💗</span> <span class="shiny">Menu de Saint-Valentin</span>
+      </div>
+
+      <div class="section">
+        <div class="emoji">💘</div>
+        <div>
+          <div class="title">Entrée</div>
+          <div class="item">Bruschettas tomates–ail–basilic</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="emoji">❤️</div>
+        <div>
+          <div class="title">Plat</div>
+          <div class="item">Pâtes crémeuses au poulet et champignons</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="emoji">💞</div>
+        <div>
+          <div class="title">Dessert</div>
+          <div class="item">Fondant au chocolat</div>
+        </div>
+      </div>
+
+      <button id="retour">Retour à la question ❤️</button>
+
+      <div id="final">J’ai hâte de passer cette soirée avec toi 💕<br> Je t’aime 💘</div>
+    </div>
+  </div>
 
   <script>
     const btnNon = document.getElementById("btn-non");
@@ -243,12 +351,15 @@
     const secret = document.getElementById("secret");
     const cuteSound = document.getElementById("cuteSound");
 
+    const screen1 = document.getElementById("screen1");
+    const screen2 = document.getElementById("screen2");
+    const retour = document.getElementById("retour");
+
     function moveNon() {
       const maxX = window.innerWidth - btnNon.offsetWidth;
       const maxY = window.innerHeight - btnNon.offsetHeight;
       btnNon.style.left = Math.random() * maxX + "px";
       btnNon.style.top = Math.random() * maxY + "px";
-
       btnNon.style.animation = "shake 0.3s";
       setTimeout(() => btnNon.style.animation = "", 300);
     }
@@ -258,16 +369,21 @@
     btnNon.addEventListener("click", moveNon);
 
     btnOui.addEventListener("click", () => {
-      cuteSound.play();
+      cuteSound.play().catch(() => {});
+      bgMusic.play().catch(() => {});
+
       secret.style.display = "block";
       secret.style.animation = "pop 0.4s ease-out";
 
       setTimeout(() => {
-        document.body.style.transition = "opacity 0.8s ease, transform 0.8s ease";
-        document.body.style.opacity = "0";
-        document.body.style.transform = "scale(1.05)";
-        setTimeout(() => window.location.href = "menu.html", 800);
+        screen1.classList.add("hidden");
+        screen2.classList.remove("hidden");
       }, 1500);
+    });
+
+    retour.addEventListener("click", () => {
+      screen2.classList.add("hidden");
+      screen1.classList.remove("hidden");
     });
   </script>
 
